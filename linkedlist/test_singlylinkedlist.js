@@ -3,15 +3,15 @@ import singlylinkedlist from "./singlylinkedlist.js";
 const lst = new singlylinkedlist();
 
 //// --- byg liste og tjek om *add* virker ---
-for (let i = 1; i < 5; i++) {
+for (let i = 1; i <= 5; i++) {
     lst.add("n" + i);
 }
 
 //// --- tjek om *remove* virker ---
-// console.log(lst.remove("n5"))
+console.log(lst.remove("n5"))
 
 //// --- tjek om *getFirst* virker ---
-console.log(lst.getFirst());
+// console.log(lst.getFirst());
 
 //// --- tjek om *getLast* virker ---
 // console.log(lst.getLast());

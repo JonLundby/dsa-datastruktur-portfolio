@@ -21,31 +21,39 @@ export default class singlylinkedlist {
 
     // remove( data ) - der finder en node med link til dét data-objekt, og fjerner noden.
     remove(data) {
-        // hvis head er null så er listen tom
-        if (this.head === null) {
-            return null; // hvis listen er tom returnes null
-        }
-
-        // hvis listens første head er det samme som data
-        if (this.head.data === data) {
-            this.head = this.head.next; // så skal listens head sættes til den næste node således går den første head tabt(bliver removed)
+        const node = this.getNodeWith(data);
+        if (node) {
+            this.removeNode(node);
             return data;
+        } else {
+            return null;
         }
 
-        let current = this.head; // holder på den node vi kigger på (til at starte med den første node i listen)
-        let previous = null; // holder på den sidste node vi kiggede på
+        // // hvis head er null så er listen tom
+        // if (this.head === null) {
+        //     return null; // hvis listen er tom returnes null
+        // }
 
-        // så længe current (head) er noget
-        while (current !== null) {
-            //hvis current (head) er det samme som data
-            if (current.data === data) {
-                previous.next = current.next; // så sættes previous node til at pege på noden som current noden peger på (altså springes current node over fordi den skal removes)
-                return data; // returner det fundne og fjernede object
-            }
-            previous = current; // den node vi har kigget på, og som ikke var den der skulle removes, bliver sat til previous
-            current = current.next; // current node som vi har kigget på bliver udskiftet med den næste som den selv peger på
-        }
-        return null;
+        // // hvis listens første head er det samme som data
+        // if (this.head.data === data) {
+        //     this.head = this.head.next; // så skal listens head sættes til den næste node således går den første head tabt(bliver removed)
+        //     return data;
+        // }
+
+        // let current = this.head; // holder på den node vi kigger på (til at starte med den første node i listen)
+        // let previous = null; // holder på den sidste node vi kiggede på
+
+        // // så længe current (head) er noget
+        // while (current !== null) {
+        //     //hvis current (head) er det samme som data
+        //     if (current.data === data) {
+        //         previous.next = current.next; // så sættes previous node til at pege på noden som current noden peger på (altså springes current node over fordi den skal removes)
+        //         return data; // returner det fundne og fjernede object
+        //     }
+        //     previous = current; // den node vi har kigget på, og som ikke var den der skulle removes, bliver sat til previous
+        //     current = current.next; // current node som vi har kigget på bliver udskiftet med den næste som den selv peger på
+        // }
+        // return null;
     }
 
     // getFirst() - der returnerer data i den første node i listen
