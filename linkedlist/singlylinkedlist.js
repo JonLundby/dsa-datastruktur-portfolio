@@ -50,36 +50,40 @@ export default class singlylinkedlist {
 
     // getFirst() - der returnerer data i den første node i listen
     getFirst() {
-        if (this.head.data !== null) {
-            return this.head.data;
-        } else {
-            return null;
-        }
+        const node = this.getFirstNode();
+        return node ? node.data : null;
+        // if (this.head.data !== null) {
+        //     return this.head.data;
+        // } else {
+        //     return null;
+        // }
     }
     // getLast() - der returnerer data i den sidste node i listen (længst væk fra head)
     getLast() {
+        const node = this.getLastNode();
+        return node ? node.data : null;
         // hvis head er null så er listen tom og null returneres
-        if (this.head === null) {
-            console.log("listen er tom");
-            return null;
-        }
+        // if (this.head === null) {
+        //     console.log("listen er tom");
+        //     return null;
+        // }
 
-        // hvis head ikke peger på noget så er der kun en node og den returneres
-        if (this.head.next === null) {
-            return this.head.data;
-        }
+        // // hvis head ikke peger på noget så er der kun en node og den returneres
+        // if (this.head.next === null) {
+        //     return this.head.data;
+        // }
 
-        let current = this.head;
+        // let current = this.head;
 
-        // så længe current (head) peger på noget sættes current til at være det den peger på
-        while (current.next !== null) {
-            current = current.next;
+        // // så længe current (head) peger på noget sættes current til at være det den peger på
+        // while (current.next !== null) {
+        //     current = current.next;
 
-            // hvis current lige pludselig ikke peger på noget så må det være den sidste og den returneres
-            if (current.next === null) {
-                return current.data;
-            }
-        }
+        //     // hvis current lige pludselig ikke peger på noget så må det være den sidste og den returneres
+        //     if (current.next === null) {
+        //         return current.data;
+        //     }
+        // }
     }
 
     // get( index ) - der returnerer data-objektet på det pågældende index i listen.

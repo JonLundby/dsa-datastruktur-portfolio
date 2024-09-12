@@ -11,7 +11,7 @@ for (let i = 1; i < 5; i++) {
 // console.log(lst.remove("n5"))
 
 //// --- tjek om *getFirst* virker ---
-// console.log(lst.getFirst());
+console.log(lst.getFirst());
 
 //// --- tjek om *getLast* virker ---
 // console.log(lst.getLast());
