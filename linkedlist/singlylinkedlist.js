@@ -11,14 +11,12 @@ export default class singlylinkedlist {
     // Constructor
     constructor() {
         this.head = null; // Den første node
-        this._size = 0;
     }
 
     // add( data ) - der opretter en ny node, med link til data-objektet, og tilføjer den til listen
     add(data) {
         //add modtager data objekt
         this.head = new Node(data, this.head); // listens head er en ny node og peger på head som første gang er null og herefter peger den på den foregående node
-        this._size = this._size + 1;
     }
 
     // remove( data ) - der finder en node med link til dét data-objekt, og fjerner noden.
@@ -42,7 +40,6 @@ export default class singlylinkedlist {
             //hvis current (head) er det samme som data
             if (current.data === data) {
                 previous.next = current.next; // så sættes previous node til at pege på noden som current noden peger på (altså springes current node over fordi den skal removes)
-                this._size--; // _size bliver 1 mindre
                 return data; // returner det fundne og fjernede object
             }
             previous = current; // den node vi har kigget på, og som ikke var den der skulle removes, bliver sat til previous
@@ -88,7 +85,7 @@ export default class singlylinkedlist {
     // get( index ) - der returnerer data-objektet på det pågældende index i listen.
     get(index) {
         // tjek om index er inden for længde af listen
-        if (index < 0 || index >= this._size) {
+        if (index < 0 || index >= this.size()) {
             console.log("index out of bounds");
             return null;
         }
@@ -172,7 +169,6 @@ export default class singlylinkedlist {
         // Hvis noden der skal fjernes er head
         if (this.head === node) {
             this.head = this.head.next; // så skal head sættes til at være den næste node og hvis den er null så bliver listen tom
-            this._size--;
             return;
         }
 
@@ -185,7 +181,6 @@ export default class singlylinkedlist {
             if (current === node) {
                 // så skal previous node pege på næste node efter den der fjernes
                 previous.next = current.next;
-                this._size--; // _size skal være 1 mindre
                 return;
             }
             previous = current; // den node vi har kigget på bliver sat til previous
@@ -199,7 +194,6 @@ export default class singlylinkedlist {
             return null;
         } else {
             this.head = this.head.next;
-            this._size--;
         }
     }
 
@@ -213,7 +207,6 @@ export default class singlylinkedlist {
         //hvis listen er 1 så skal head fjernes
         if (this.head.next === null) {
             this.head = null;
-            this._size--;
             return;
         }
 
@@ -225,7 +218,6 @@ export default class singlylinkedlist {
             current = current.next;
         }
         previous.next = null;
-        this._size--;
     }
 
     // insertAfter( node ) - der indsætter en ny node efter den pågældende
@@ -238,18 +230,23 @@ export default class singlylinkedlist {
         const newNode = new Node(data); // den nye node med data
         newNode.next = node.next; // den nye node skal pege på den node som den node der skal indsættes efter peger på
         node.next = newNode; // den node der skal indsættes efter skal pege på den nye node
-        this._size++;
     }
 
     // clear() - der fjerner alle nodes fra listen, og sørger for at den er tom.
     clear() {
         this.head = null;
-        this._size = 0;
     }
 
-    // _size() - der returnerer antallet af nodes i listen
+    // size() - der returnerer antallet af nodes i listen
     size() {
-        return this._size;
+        let current = this.head;
+
+        for (let i = 0; current !== null; i++) {
+            current = current.next;
+            if (current === null) {
+                return i + 1;
+            }
+        }
     }
 
     printList() {
