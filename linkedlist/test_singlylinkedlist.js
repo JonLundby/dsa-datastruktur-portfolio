@@ -7,8 +7,13 @@ for (let i = 1; i <= 5; i++) {
     lst.add("n" + i);
 }
 
+//// --- tjek om *iterator/for-of* virker ---
+// for (const data of lst) {
+//     console.log(data);
+// }
+
 //// --- tjek om *remove* virker ---
-console.log(lst.remove("n5"))
+// console.log(lst.remove("n5"))
 
 //// --- tjek om *getFirst* virker ---
 // console.log(lst.getFirst());
@@ -52,7 +57,7 @@ console.log(lst.remove("n5"))
 // lst.insertAfter(node, "1.5");
 
 //// --- tjek *clear* ---
-// lst.clear();
+lst.clear();
 // lst.add("n1000");
 
 console.log("-------printer liste--------");

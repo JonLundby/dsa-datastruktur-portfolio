@@ -13,6 +13,22 @@ export default class singlylinkedlist {
         this.head = null; // Den første node
     }
 
+    // Symbol.iterator - der returnerer en iterator, der kan bruges til at gennemløbe listen
+    [Symbol.iterator]() {
+        let current = this.head;
+        return {
+            next() {
+                if (current) {
+                    const value = current.data;
+                    current = current.next;
+                    return { value, done: false };
+                } else {
+                    return { done: true };
+                }
+            }
+        };
+    }
+
     // add( data ) - der opretter en ny node, med link til data-objektet, og tilføjer den til listen
     add(data) {
         //add modtager data objekt
@@ -253,10 +269,10 @@ export default class singlylinkedlist {
     size() {
         let current = this.head;
 
-        for (let i = 0; current !== null; i++) {
+        for (let i = -1; current !== null; i++) {
             current = current.next;
             if (current === null) {
-                return i + 1;
+                return i;
             }
         }
     }
