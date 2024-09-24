@@ -92,5 +92,14 @@ console.log(east); // expected {1, 2, 'Fem'}
 // const east = grid.east(0, 2);
 // console.log(east); // expected undefined
 
+console.log("\n ----------- testing rows() -----------");
+console.log(grid.getRows())
+
+console.log("\n ----------- testing cols() -----------");
+console.log(grid.getCols())
+
+console.log("\n ----------- testing cols() -----------");
+grid.fill("test")
+
 // dump
 grid.dump();

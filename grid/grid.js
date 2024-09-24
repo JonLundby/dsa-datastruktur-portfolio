@@ -181,7 +181,7 @@ export default class Grid {
         }
     }
 
-        east(arg1, arg2) {
+    east(arg1, arg2) {
         const { row, col } = this._parsePosition(arg1, arg2 + 1);
         const value = this.get(row, col);
 
@@ -189,6 +189,26 @@ export default class Grid {
             return { row, col, value };
         } else {
             return undefined;
+        }
+    }
+
+    getRows() {
+        return this.rows;
+    }
+
+    getCols() {
+        return this.cols;
+    }
+
+    size() {
+        return this.rows * this.cols
+    }
+
+    fill(value) {
+        for (let row = 0; row < this.rows; row++) {
+            for (let col = 0; col < this.cols; col++) {
+                this.set(row, col, value);
+            }
         }
     }
 
