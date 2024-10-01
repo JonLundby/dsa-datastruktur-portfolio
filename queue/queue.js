@@ -12,6 +12,21 @@ export default class Queue {
         this.tail = null;
     }
 
+    [Symbol.iterator]() {
+        let current = this.head;
+        return {
+            next() {
+                if (current) {
+                    const value = current.data
+                    current = current.next;
+                    return {value, done: false}
+                } else {
+                    return {done: true}
+                }
+            }
+        }
+    }
+
     // tilføjer en ny node, med reference til data-objektet, bagest i køen
     enqueue(data) {
         const newNode = new Node(data)
@@ -25,9 +40,44 @@ export default class Queue {
         }
     }
 
-    // dequeue() - fjerner den node der ligger forrest i køen, og returnerer det referede data-objekt
+    // fjerner den node der ligger forrest i køen, og returnerer det referede data-objekt
+    dequeue() {
+        const newHead = this.head.next;
+        this.head = newHead;
+    }
     
-// peek() - returnerer data-objektet der ligger forrest i køen, uden at fjerne det
-// size() - fortæller hvor mange elementer der er i køen
-// get( index ) - finder og returnerer elementet på plads ‘index’, hvor 0 er det forreste, uden at fjerne noget
+    // returnerer data-objektet der ligger forrest i køen, uden at fjerne det
+    peek() {
+        return this.head.data;
+    }
+
+    // fortæller hvor mange elementer der er i køen
+    size() {
+        let current = this.head;
+        let count = 0;
+
+        while (current !== null) {
+            current = current.next;
+            count++;
+        }
+
+        return count;
+   }
+
+    // get( index ) - finder og returnerer elementet på plads ‘index’, hvor 0 er det forreste, uden at fjerne noget
+    get(index) {
+        if (typeof index === "number" && index < this.size() && index >= 0) {
+            let current = this.head;
+            let count = 0;
+
+            while (index !== count) {
+                current = current.next;
+                count++;
+            }
+
+            return current
+        } else {
+            return
+        }
+    }
 }
