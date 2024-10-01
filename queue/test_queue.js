@@ -2,6 +2,8 @@ import Queue from "./queue.js";
 
 const q = new Queue();
 
+console.log("Queue is empty(null): ", q.peek())
+
 q.enqueue("n1");
 q.enqueue("n2");
 q.enqueue("n3");
@@ -35,3 +37,9 @@ q.enqueue("n9")
 for (const node of q) {
     console.log("Data is: ", node)
 }
+
+console.log("------------------")
+console.log("HEAD: ", q.head);
+const headNodeRemoved = q.dequeue();
+console.log("Data dequeued: ", headNodeRemoved)
+console.log("HEAD: ", q.head);

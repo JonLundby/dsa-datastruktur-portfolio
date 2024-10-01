@@ -42,13 +42,25 @@ export default class Queue {
 
     // fjerner den node der ligger forrest i køen, og returnerer det referede data-objekt
     dequeue() {
-        const newHead = this.head.next;
-        this.head = newHead;
+        if (this.head === null) {
+            return
+        }
+
+        const nodeToRemove = this.head.data
+
+        if (this.head.next === null) {
+            this.head = null
+            this.tail = null
+        } else {
+            this.head = this.head.next;
+        }
+
+        return nodeToRemove;
     }
     
     // returnerer data-objektet der ligger forrest i køen, uden at fjerne det
     peek() {
-        return this.head.data;
+        return this.head ? this.head.data : null;
     }
 
     // fortæller hvor mange elementer der er i køen
@@ -64,7 +76,7 @@ export default class Queue {
         return count;
    }
 
-    // get( index ) - finder og returnerer elementet på plads ‘index’, hvor 0 er det forreste, uden at fjerne noget
+    // finder og returnerer elementet på plads ‘index’, hvor 0 er det forreste, uden at fjerne noget
     get(index) {
         if (typeof index === "number" && index < this.size() && index >= 0) {
             let current = this.head;
