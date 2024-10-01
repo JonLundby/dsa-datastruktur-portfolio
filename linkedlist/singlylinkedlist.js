@@ -1,16 +1,14 @@
 class Node {
+    // next = null, hvis der ikke er nogen næste node
     constructor(data, next = null) {
-        // next = null, hvis der ikke er nogen næste node
-        // modtager data og next (en pointer der peger på næste node)
-        this.data = data; // en property der holder på et object, fx enemy object
-        this.next = next; // en reference til næste node i en linkedList
+        this.data = data;
+        this.next = next;
     }
 }
 
 export default class singlylinkedlist {
-    // Constructor
     constructor() {
-        this.head = null; // Den første node
+        this.head = null; 
     }
 
     // Symbol.iterator - der returnerer en iterator, der kan bruges til at gennemløbe listen
@@ -31,8 +29,7 @@ export default class singlylinkedlist {
 
     // add( data ) - der opretter en ny node, med link til data-objektet, og tilføjer den til listen
     add(data) {
-        //add modtager data objekt
-        this.head = new Node(data, this.head); // listens head er en ny node og peger på head som første gang er null og herefter peger den på den foregående node
+        this.head = new Node(data, this.head);
     }
 
     // remove( data ) - der finder en node med link til dét data-objekt, og fjerner noden.
@@ -76,38 +73,11 @@ export default class singlylinkedlist {
     getFirst() {
         const node = this.getFirstNode();
         return node ? node.data : null;
-        // if (this.head.data !== null) {
-        //     return this.head.data;
-        // } else {
-        //     return null;
-        // }
     }
     // getLast() - der returnerer data i den sidste node i listen (længst væk fra head)
     getLast() {
         const node = this.getLastNode();
         return node ? node.data : null;
-        // hvis head er null så er listen tom og null returneres
-        // if (this.head === null) {
-        //     console.log("listen er tom");
-        //     return null;
-        // }
-
-        // // hvis head ikke peger på noget så er der kun en node og den returneres
-        // if (this.head.next === null) {
-        //     return this.head.data;
-        // }
-
-        // let current = this.head;
-
-        // // så længe current (head) peger på noget sættes current til at være det den peger på
-        // while (current.next !== null) {
-        //     current = current.next;
-
-        //     // hvis current lige pludselig ikke peger på noget så må det være den sidste og den returneres
-        //     if (current.next === null) {
-        //         return current.data;
-        //     }
-        // }
     }
 
     // get( index ) - der returnerer data-objektet på det pågældende index i listen.
@@ -123,7 +93,6 @@ export default class singlylinkedlist {
 
         // iteration indtil index tallet
         for (let i = 0; i < index; i++) {
-            // current node bliver til næste indtil index er nået
             current = current.next;
         }
         return current.data;
@@ -284,9 +253,9 @@ export default class singlylinkedlist {
             if (current.data === null) {
                 console.log("No data in node");
             } else {
-                console.log(current.data); // Udskriv data for hver node
+                console.log(current.data);
             }
-            current = current.next; // Gå videre til næste node
+            current = current.next;
         }
     }
 }
