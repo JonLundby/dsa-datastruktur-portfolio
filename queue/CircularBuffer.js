@@ -49,14 +49,8 @@ export default class CircularBuffer {
     }
 
     size() {
-        let count = 0;
-
-        for (const element of this.array) {
-            if (element !== null && element !== undefined) {
-                count++;
-            }
-        }
-        return count;
+        // example: 3 -1 + 4 = 6 --> 6 % 4 = 2
+        return (this.writeIndex - this.readIndex + this.arraySize) % this.arraySize;
     }
 
     get(index) {
