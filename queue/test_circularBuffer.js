@@ -56,17 +56,26 @@ const buffer = new CircularBuffer();
 
 buffer.enqueue("F");
 buffer.enqueue("O");
-buffer.enqueue("U");
-buffer.enqueue("R");
-
-buffer.dequeue()
-buffer.dequeue()
-buffer.dequeue()
-buffer.enqueue("Q")
+// buffer.enqueue("U");
+// buffer.enqueue("R");
 
 for (const element of buffer) {
     console.log(element);
-} // expected output: Q null U R
+}
+console.log("----- TESTED: F O U R -----");
 
-// console.log(buffer.arraySize)
-console.log("----- TESTED: Q null U R -----");
+buffer.dequeue()
+buffer.dequeue()
+// buffer.dequeue()
+// buffer.dequeue()
+
+buffer.enqueue("Q")
+buffer.enqueue("U")
+buffer.enqueue("A")
+buffer.enqueue("D")
+
+for (const element of buffer) {
+    console.log(element);
+}
+
+// buffer.enqueue("R")

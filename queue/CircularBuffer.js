@@ -47,30 +47,31 @@ export default class CircularBuffer {
         // throw error hvis buffer er fuld
         let isFull = this.isFull();
         if (isFull) {
-            console.log("Buffer is full!");
             throw new Error("Buffer is full!");
         } else {
             // hvis buffer ikke var fuld, så sæt data i array hvor writeIndex pointer
+            // console.log("writing to index: ", this.writeIndex);
             this.array.set(this.writeIndex, data);
         }
 
-        // if writeIndex is at the end of the array, reset it to 0
-        if (this.writeIndex === this.arraySize - 1) {
-            this.writeIndex = 0;
-        } else {
-            this.writeIndex++;
-        }
-        console.log("writeIndex: ", this.writeIndex);
+        // med modulo operator vil writeIndex altid være det som writeIndex var før + 1. Og hvis writeIndex er lig med arraySize, så vil writeIndex blive 0
+        this.writeIndex = (this.writeIndex + 1) % this.arraySize;
+        // console.log("writeIndex incremented to: ", this.writeIndex);
     }
 
     dequeue() {
-        if (this.readIndex < this.arraySize) {
-            this.array.set(this.readIndex, null);
-            this.readIndex++;
+        // console.log("readIndex: ", this.readIndex);
+        if (this.isEmpty()) {
+            throw new Error("Buffer is empty!");
         } else {
-            this.readIndex = 0;
-            this.array.set(this.readIndex, null);
-            this.readIndex++;
+            if (this.readIndex < this.arraySize) {
+                this.array.set(this.readIndex, null);
+                this.readIndex = (this.readIndex + 1) % this.arraySize;
+            } else {
+                this.readIndex = 0;
+                this.array.set(this.readIndex, null);
+                this.readIndex = (this.readIndex + 1) % this.arraySize;
+            }
         }
     }
 
