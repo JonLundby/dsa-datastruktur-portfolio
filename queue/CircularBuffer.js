@@ -8,12 +8,33 @@ export default class CircularBuffer {
         this.writeIndex = 0; // tail
     }
 
+    // // iterator der medtager tomme index pladser
+    // [Symbol.iterator]() {
+    //     let index = 0;
+    //     return {
+    //         next: () => {
+    //             if (index < this.arraySize) {
+    //                 return { value: this.array.get(index++), done: false };
+    //             } else {
+    //                 return { done: true };
+    //             }
+    //         },
+    //     };
+    // }
+
+    // iterator der kun returnerer elementer i buffer (altså ikke tomme index pladser)
     [Symbol.iterator]() {
-        let index = 0;
+        let index = this.readIndex; // Iterere fra readIndex
+        const buffer = this; 
+        let iterationCount = 0;
         return {
-            next: () => {
-                if (index < this.arraySize) {
-                    return { value: this.array.get(index++), done: false };
+            next() {
+                // så længe iterationCount er mindre end antallet af elementer i buffer
+                if (iterationCount < buffer.size()) {
+                    let value = buffer.array.get(index); // hent element fra array på index plads og gem som value...
+                    index = (index + 1) % buffer.arraySize; //... og skift index til næste element / klargører index til næste iteration
+                    iterationCount++;
+                    return { value: value, done: false };
                 } else {
                     return { done: true };
                 }
@@ -21,15 +42,23 @@ export default class CircularBuffer {
         };
     }
 
+    // enqueue for en buffer der ikke modtager flere elementer før dequeue har skabt mere plads
     enqueue(data) {
-        // checking if the write pointer is still less than the static array size and if it is then there must still be empty indexes
-        if (this.writeIndex < this.arraySize) {
-            this.array.set(this.writeIndex, data);
-            this.writeIndex++;
+        // throw error hvis buffer er fuld
+        let isFull = this.isFull();
+        if (isFull) {
+            console.log("Buffer is full!");
+            throw new Error("Buffer is full!");
         } else {
-            // else the write pointer must be pointing at the last index which would already have been set. Thus resetting the write pointer to 0 and overwriting from index 0
-            this.writeIndex = 0;
             this.array.set(this.writeIndex, data);
+        }
+        // hvis buffer ikke var fuld, så sæt data i array hvor writeIndex pointer
+
+        // if writeIndex is at the end of the array, reset it to 0
+        if (this.writeIndex === this.arraySize - 1) {
+            this.writeIndex = 0;
+        } else {
+            this.writeIndex++;
         }
     }
 
@@ -49,8 +78,16 @@ export default class CircularBuffer {
     }
 
     size() {
-        // example: 3 -1 + 4 = 6 --> 6 % 4 = 2
-        return (this.writeIndex - this.readIndex + this.arraySize) % this.arraySize;
+        // // example: 3 -1 + 4 = 6 --> 6 % 4 = 2
+        // return (this.writeIndex - this.readIndex + this.arraySize) % this.arraySize;
+
+        let count = 0;
+        for (const element of this.array) {
+            if (element !== null && element !== undefined) {
+                count++;
+            }
+        }
+        return count;
     }
 
     get(index) {
@@ -61,22 +98,23 @@ export default class CircularBuffer {
     }
 
     isEmpty() {
-        let size = this.size()
+        let size = this.size();
         if (size === 0) {
             return true;
         }
         return false;
     }
-    
+
     isFull() {
-        let size = this.size()
-        if (size === this.arraySize) {
+        let size = this.size(); // antallet af elementer i buffer
+        // tjek om der er lige så mange elementer i buffer som der er plads til
+        if (size === this.capacity()) {
             return true;
         }
         return false;
     }
 
     capacity() {
-        return this.arraySize
+        return this.arraySize;
     }
 }
