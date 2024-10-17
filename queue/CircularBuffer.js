@@ -50,9 +50,9 @@ export default class CircularBuffer {
             console.log("Buffer is full!");
             throw new Error("Buffer is full!");
         } else {
+            // hvis buffer ikke var fuld, så sæt data i array hvor writeIndex pointer
             this.array.set(this.writeIndex, data);
         }
-        // hvis buffer ikke var fuld, så sæt data i array hvor writeIndex pointer
 
         // if writeIndex is at the end of the array, reset it to 0
         if (this.writeIndex === this.arraySize - 1) {
@@ -60,6 +60,7 @@ export default class CircularBuffer {
         } else {
             this.writeIndex++;
         }
+        console.log("writeIndex: ", this.writeIndex);
     }
 
     dequeue() {
