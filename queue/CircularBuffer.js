@@ -1,3 +1,7 @@
+/*
+    NOTE: The iterator only returns elements in the buffer, not empty index places.
+*/
+
 import StaticArray from "./StaticArray.js";
 
 export default class CircularBuffer {
@@ -6,6 +10,7 @@ export default class CircularBuffer {
         this.arraySize = this.array.length;
         this.readIndex = 0; // head
         this.writeIndex = 0; // tail
+        this.count = 0;
     }
 
     // // iterator der medtager tomme index pladser
@@ -25,11 +30,11 @@ export default class CircularBuffer {
     // iterator der kun returnerer elementer i buffer (altså ikke tomme index pladser)
     [Symbol.iterator]() {
         let index = this.readIndex; // Iterere fra readIndex
-        const buffer = this; 
+        const buffer = this;
         let iterationCount = 0;
         return {
             next() {
-                // så længe iterationCount er mindre end antallet af elementer i buffer
+                // så længe iterationCount er mindre end antallet af elementer i buffer og buffer ikke er tom
                 if (iterationCount < buffer.size()) {
                     let value = buffer.array.get(index); // hent element fra array på index plads og gem som value...
                     index = (index + 1) % buffer.arraySize; //... og skift index til næste element / klargører index til næste iteration
@@ -50,46 +55,50 @@ export default class CircularBuffer {
             throw new Error("Buffer is full!");
         } else {
             // hvis buffer ikke var fuld, så sæt data i array hvor writeIndex pointer
-            // console.log("writing to index: ", this.writeIndex);
             this.array.set(this.writeIndex, data);
+            this.count++;
+            console.log("count: ", this.count);
         }
 
-        // med modulo operator vil writeIndex altid være det som writeIndex var før + 1. Og hvis writeIndex er lig med arraySize, så vil writeIndex blive 0
+        // Med modulo operator vil writeIndex altid være det som writeIndex var før + 1...
+        // ...Og hvis writeIndex er lig med arraySize, så vil writeIndex blive 0 igen (således cirkulær)
+        // (0 + 1) % 4 = 1
+        // (1 + 1) % 4 = 2
+        // (2 + 1) % 4 = 3
+        // (3 + 1) % 4 = 0 reset til 0 når writeIndex er lig med arraySize
         this.writeIndex = (this.writeIndex + 1) % this.arraySize;
-        // console.log("writeIndex incremented to: ", this.writeIndex);
+        console.log("writeIndex: ", this.writeIndex);
     }
 
     dequeue() {
-        // console.log("readIndex: ", this.readIndex);
         if (this.isEmpty()) {
-            throw new Error("Buffer is empty!");
+            throw new Error("Buffer already is empty!");
         } else {
             if (this.readIndex < this.arraySize) {
                 this.array.set(this.readIndex, null);
+                this.count--;
                 this.readIndex = (this.readIndex + 1) % this.arraySize;
+                console.log("readIndex: ", this.readIndex);
             } else {
                 this.readIndex = 0;
                 this.array.set(this.readIndex, null);
+                this.count--;
                 this.readIndex = (this.readIndex + 1) % this.arraySize;
+                console.log("readIndex: ", this.readIndex);
             }
         }
     }
 
     peek() {
-        return this.array.get(this.readIndex);
+        if (this.isEmpty()) {
+            throw new Error("Buffer is empty!");
+        } else {
+            return this.array.get(this.readIndex);
+        }
     }
 
     size() {
-        // // example: 3 -1 + 4 = 6 --> 6 % 4 = 2
-        // return (this.writeIndex - this.readIndex + this.arraySize) % this.arraySize;
-
-        let count = 0;
-        for (const element of this.array) {
-            if (element !== null && element !== undefined) {
-                count++;
-            }
-        }
-        return count;
+        return this.count;
     }
 
     get(index) {
@@ -100,20 +109,22 @@ export default class CircularBuffer {
     }
 
     isEmpty() {
-        let size = this.size();
-        if (size === 0) {
-            return true;
-        }
-        return false;
+        return this.size() === 0;
+        // let size = this.size();
+        // if (size === 0) {
+        //     return true;
+        // }
+        // return false;
     }
 
     isFull() {
-        let size = this.size(); // antallet af elementer i buffer
-        // tjek om der er lige så mange elementer i buffer som der er plads til
-        if (size === this.capacity()) {
-            return true;
-        }
-        return false;
+        return this.size() === this.capacity();
+        // let size = this.size(); // antallet af elementer i buffer
+        // // tjek om der er lige så mange elementer i buffer som der er plads til
+        // if (size === this.capacity()) {
+        //     return true;
+        // }
+        // return false;
     }
 
     capacity() {

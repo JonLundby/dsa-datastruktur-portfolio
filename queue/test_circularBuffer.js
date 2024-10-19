@@ -2,80 +2,115 @@ import CircularBuffer from "./CircularBuffer.js";
 
 const buffer = new CircularBuffer();
 
-// console.log("Empty buffer: ", buffer.isEmpty()); // expected: true
-// console.log("Full buffer: ", buffer.isFull()); // expected: false
-// console.log("Buffer elements: ", buffer.size()); // expected: 0
-// console.log("capacity: ", buffer.capacity()); // 4
+for (const element of buffer) {
+    console.log(element);
+} // expected output: no output since buffer is empty
 
+console.log(" ----- TESTED: iterator return nothing(above this line) since the buffer is empty -----\n");
+
+console.log("Empty buffer: ", buffer.isEmpty()); // expected: true
+console.log("Full buffer: ", buffer.isFull()); // expected: false
+console.log("Buffersize (elements enqueued): ", buffer.size()); // expected: 0
+console.log("capacity: ", buffer.capacity()); // expected: 4
+
+console.log(" ----- TESTED: isEmpty, isFull, size, capacity (when buffer is empty) -----\n");
+
+buffer.enqueue("F");
+buffer.enqueue("O");
+buffer.enqueue("U");
+buffer.enqueue("R");
+
+console.log("Empty buffer: ", buffer.isEmpty()); // expected: false
+console.log("Full buffer: ", buffer.isFull()); // expected: true
+console.log("Buffersize (elements enqueued): ", buffer.size()); // expected: 4
+console.log("capacity: ", buffer.capacity()); // expected: 4
+console.log("peek: ", buffer.peek()); // expected: F
+
+console.log("----- TESTED: isEmpty, isFull, size, capacity and peek (when buffer is full)-----\n");
+
+for (const element of buffer) {
+    console.log(element);
+} // expected output: F O U R
+
+console.log(" ----- TESTED: enqueue x4 and iterator return F O U R -----\n");
+
+buffer.dequeue();
+buffer.dequeue();
+buffer.dequeue();
+buffer.dequeue();
+
+console.log("----- no iteration below this line -----");
+for (const element of buffer) {
+    console.log(element);
+} // expected output: no output since buffer is empty
+console.log("----- no iteration above this line -----\n");
+
+console.log("Empty buffer: ", buffer.isEmpty()); // expected: true
+console.log("Full buffer: ", buffer.isFull()); // expected: false
+console.log("Buffersize (elements enqueued): ", buffer.size()); // expected: 0
+console.log("capacity: ", buffer.capacity()); // expected: 4
+
+
+console.log(" ----- TESTED: dequeue x4 and iterator return nothing since the buffer is empty -----\n");
+
+buffer.enqueue("F");
+buffer.enqueue("O");
+buffer.dequeue();
+buffer.enqueue("U");
+buffer.enqueue("R");
+
+for (const element of buffer) {
+    console.log(element);
+} // expected output: O U R
+console.log("peek: ", buffer.peek()); // expected: O
+
+console.log(" ----- TESTED: enqueue F O, dequeue F, enqueue U R, peek = 'O', and iterator return O U R -----\n");
+
+buffer.enqueue("Q");
+
+for (const element of buffer) {
+    console.log(element);
+} // expected output: O U R Q
+
+console.log(" ----- TESTED: enqueue Q and iterator return O U R Q -----\n");
+
+buffer.dequeue();
+
+for (const element of buffer) {
+    console.log(element);
+} // expected output: U R Q
+
+console.log(" ----- TESTED: dequeue and iterator return U R Q -----\n");
+
+buffer.enqueue("U");
+buffer.dequeue();
+buffer.enqueue("A");
+
+for (const element of buffer) {
+    console.log(element);
+} // expected output: R Q U A
+
+console.log(" ----- TESTED: enqueue U, dequeue, enqueue A and iterator return R Q U A -----\n");
+
+//////// Intentional errors below (comment in to test)////////
+// buffer.dequeue();
+// buffer.dequeue();
+// buffer.dequeue();
+// buffer.dequeue();
+// buffer.dequeue();
+
+// console.log(" ----- TESTED: dequeue x5 which should throw error: cant dequeue empty buffer -----\n");
 
 // buffer.enqueue("F");
 // buffer.enqueue("O");
 // buffer.enqueue("U");
 // buffer.enqueue("R");
-
-// for (const element of buffer) {
-//     console.log(element);
-// } // expected output: F O U R
-
-// console.log("Empty buffer: ", buffer.isEmpty()); // expected: false
-// console.log("Full buffer: ", buffer.isFull()); // expected: true
-// console.log("Buffer elements: ", buffer.size()); // expected: 4
-// console.log("capacity: ", buffer.capacity()); // 4
-
-
-// console.log("----- TESTED: isEmpty, isFull, size, capacity, enqueue, iterator -----");
-
-// buffer.dequeue();
-// buffer.dequeue();
-
-// for (const element of buffer) {
-//     console.log(element);
-// } // expected output: null null U R
-
-// console.log("----- TESTED: null null U R -----");
-
 // buffer.enqueue("Q");
-
-// for (const element of buffer) {
-//     console.log(element);
-// } // expected output: Q null U R
-
-// console.log("----- TESTED: Q null U R -----");
-
-// buffer.dequeue();
-// buffer.dequeue();
-// buffer.dequeue();
-
-// for (const element of buffer) {
-//     console.log(element);
-// } // expected output: null null null null
-
-// console.log("----- TESTED: null null null null -----");
-
-// ---------------------------------------------------------- \\
-
-buffer.enqueue("F");
-buffer.enqueue("O");
 // buffer.enqueue("U");
-// buffer.enqueue("R");
+// buffer.enqueue("A");
+// buffer.enqueue("D");
 
-for (const element of buffer) {
-    console.log(element);
-}
-console.log("----- TESTED: F O U R -----");
+// console.log(" ----- TESTED: enqueue x8 which should throw error: cant enqueue full buffer -----\n");
 
-buffer.dequeue()
-buffer.dequeue()
-// buffer.dequeue()
-// buffer.dequeue()
 
-buffer.enqueue("Q")
-buffer.enqueue("U")
-buffer.enqueue("A")
-buffer.enqueue("D")
 
-for (const element of buffer) {
-    console.log(element);
-}
-
-// buffer.enqueue("R")
