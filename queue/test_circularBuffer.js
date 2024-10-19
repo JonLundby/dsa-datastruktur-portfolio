@@ -112,5 +112,32 @@ console.log(" ----- TESTED: enqueue U, dequeue, enqueue A and iterator return R 
 
 // console.log(" ----- TESTED: enqueue x8 which should throw error: cant enqueue full buffer -----\n");
 
+const arr = ["F", "O", "U", "R", "Q", "U", "A", "D"];
+const buffer2 = new CircularBuffer(4);
+let i = 0;
 
+testBuffer2();
 
+function testBuffer2() {
+    setInterval(() => {
+        if (i === arr.length) {
+            // quit program
+            console.log("Program done!");
+            process.exit(0); // exit program
+        }
+        if (!buffer2.isFull()) {
+            buffer2.enqueue(arr[i]);
+            i++;
+        } else {
+            buffer2.dequeue();
+            buffer2.enqueue(arr[i]);
+            i++;
+        }
+
+        let outputString = "";
+        for (const element of buffer2) {
+            outputString += element;
+        }
+        console.log(outputString);
+    }, 1000);
+}
