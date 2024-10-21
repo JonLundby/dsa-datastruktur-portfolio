@@ -22,15 +22,37 @@ export default class Stack {
     }
 
     pop() {
-        //code..
+        const nodeToPop = this.tail;
+
+        if (this.tail === null) {
+            throw new Error("Stack is empty, nothing to pop!");
+        } else if (this.tail.prev === null) {
+            this.tail = null
+            return nodeToPop.data;
+        } else {
+            this.tail = this.tail.prev;
+            return nodeToPop.data;
+        }
     }
 
     peek() {
-        //code..
+        if (this.tail === null) {
+            throw new Error("Stack is empty, nothing to peek!");
+        } else {
+            return this.tail.data;
+        }
     }
 
     size() {
-        //code..
+        let current = this.tail;
+        let count = 0;
+
+        while (current) {
+            count++;
+            current = current.prev;
+        }
+
+        return count
     }
 
     get(index) {
