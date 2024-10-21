@@ -8,7 +8,7 @@ stck.push("N3");
 
 console.log(stck); // expected: N3 -> N2 -> N1 
 
-stck.pop(); // expected: N2 -> N1 
+stck.pop();
 
 console.log(stck); // expected: N2 -> N1 
 
@@ -20,3 +20,7 @@ stck.push("N5")
 stck.pop()
 
 console.log(stck.size()); // expected: 4
+
+console.log(stck)
+const nodeAtIndex = stck.get(3)
+console.log("Node at index 3: ", nodeAtIndex) // expected: N1

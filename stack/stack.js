@@ -56,6 +56,24 @@ export default class Stack {
     }
 
     get(index) {
-        //code.. noget med while og current = current.next
+        let current = this.tail;
+        let i = 0;
+        let size = this.size()
+
+        // check out of bounds
+        if (index < 0 || index >= size) {
+            throw new Error("Index is out of bounds!")
+        }
+
+        // iterate over size of stack untill index
+        while (current) {
+            if (index === i) {
+                return current.data;
+            }
+            i++;
+            current = current.prev;
+        }
+
+        return null;
     }
 }
