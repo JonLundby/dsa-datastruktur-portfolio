@@ -1,6 +1,6 @@
 /*
     NOTE: Iteratoren er implementeret således at den kun returnerer elementer i bufferen (altså ikke tomme index pladser)
-    NOTE: Gamle elementer i bufferen IKKE bliver overskrevet når bufferen er fuld
+    NOTE: Gamle elementer i bufferen bliver IKKE overskrevet når bufferen er fuld men der blokeres for yderligere enqueueing med en error meddelelse
 */
 
 import StaticArray from "./StaticArray.js";

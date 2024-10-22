@@ -1,7 +1,7 @@
 class Node {
     constructor(data, prev = null) {
-        this.data = data
-        this.prev = prev
+        this.data = data;
+        this.prev = prev;
     }
 }
 
@@ -27,7 +27,7 @@ export default class Stack {
         if (this.tail === null) {
             throw new Error("Stack is empty, nothing to pop!");
         } else if (this.tail.prev === null) {
-            this.tail = null
+            this.tail = null;
             return nodeToPop.data;
         } else {
             this.tail = this.tail.prev;
@@ -52,17 +52,17 @@ export default class Stack {
             current = current.prev;
         }
 
-        return count
+        return count;
     }
 
     get(index) {
         let current = this.tail;
         let i = 0;
-        let size = this.size()
+        let size = this.size();
 
         // check out of bounds
         if (index < 0 || index >= size) {
-            throw new Error("Index is out of bounds!")
+            throw new Error("Index is out of bounds!");
         }
 
         // iterate over size of stack untill index
