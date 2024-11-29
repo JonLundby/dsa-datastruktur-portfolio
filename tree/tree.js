@@ -51,12 +51,19 @@ export default class Node {
 
 export class Tree {
     constructor(node) {
-        this.root = null;
+        this.root = node || null;
     }
 
     // - `addValue( value )` - der opretter en ny node med den givne value, og tilføjer den et sted i træet - du bestemmer selv hvor!
     addValue(value) {
         const newNode = new Node(value);
+
+        if (this.root === null) {
+            this.root = newNode;
+        } else {
+            //
+            // this.root.hasChildNodes
+        }
     }
 
     // - `findValue( value )` - der leder efter den givne value i træet, og returnerer den (første) Node der har den
